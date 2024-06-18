@@ -64,6 +64,7 @@ class GPTIntegration:
             print(f"Successfully processed slide number {slide_number}\n")
             return slide_number, response.choices[0].message.content
         except Exception as e:
+            print(e)
             raise Exception(e)
 
 
