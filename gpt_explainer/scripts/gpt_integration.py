@@ -105,4 +105,4 @@ class GPTIntegration:
             except Exception as e:
                 raise Exception(f"Slide number {slide_number} has not been processed due to an error: {e}")
         
-        raise Exception(f"Failed to process slide number {slide_number} after 5 attempts.)
+        raise Exception(f"Failed to process slide number {slide_number} after 5 attempts.")
