@@ -1,3 +1,5 @@
+import asyncio
+import time
 import openai
 from openai.error import Timeout, RateLimitError
 from typing import Any, Tuple
@@ -20,6 +22,8 @@ The text you provide will be used to help students understand the material bette
 MODEL = "gpt-3.5-turbo"
 TEMPERATURE = 0.7
 TIMEOUT = 500
+MAX_RETRIES = 5
+SLEEP_TIME = 30
 
 class GPTIntegration:
     """
@@ -42,33 +46,6 @@ class GPTIntegration:
         openai.api_key = api_key
         self.presentation_title = presentation_title
 
-    async def asynchronous_api_call(self, text: str, slide_number: int) -> Any:
-        """
-        Makes an asynchronous call to the GPT-3.5 API to get an explanation for a given slide content.
-
-        Parameters:
-            text (str): The text content of the slide.
-            slide_number (int): The slide number.
-
-        Returns:
-            (Any): The response from the GPT-3.5 API.
-       
-        Raises:
-            Timeout: If the request times out.
-            RateLimitError: If the request exceeds the rate limit.
-            Exception: If an error occurs during the API call.
-        """
-        return await openai.ChatCompletion.acreate(
-            model=MODEL,
-            messages=[
-                {"role": "system", "content": PROMPT_SYSTEM_ROLE},
-                {"role": "user", "content": PROMPT_USER_CONTENT_TEMPLATE.format(self.presentation_title, slide_number, text)}
-            ],
-            max_tokens=400,
-            temperature=TEMPERATURE,
-            timeout=TIMEOUT
-        )
-
     async def get_gpt_explanation(self, text: str, slide_number: int) -> Tuple[int, str]:
         """
         Gets an explanation from GPT-3.5 for a given text.
@@ -86,10 +63,46 @@ class GPTIntegration:
             response = await self.asynchronous_api_call(text, slide_number)
             print(f"Successfully processed slide number {slide_number}\n")
             return slide_number, response.choices[0].message.content
-        except Timeout as e:
-            raise Timeout(f"Slide number {slide_number} has not been processed due to a timeout error: {e}")
-        except RateLimitError as e:
-            raise RateLimitError(f"Slide number {slide_number} has not been processed due to a rate limit error: {e}")
         except Exception as e:
-            raise Exception(f"Slide number {slide_number} has not been processed due to an error: {e}")
+            raise Exception(e)
 
+
+
+    async def asynchronous_api_call(self, text: str, slide_number: int) -> Any:
+        """
+        Makes an asynchronous call to the GPT-3.5 API to get an explanation for a given slide content.
+        Try to make the call 5 times in case of a rate limit error.
+
+        Parameters:
+            text (str): The text content of the slide.
+            slide_number (int): The slide number.
+
+        Returns:
+            (Any): The response from the GPT-3.5 API.
+    
+        Raises:
+            Timeout: If the request times out.
+            RateLimitError: If the request exceeds the rate limit.
+            Exception: If an error occurs during the API call.
+        """
+        for i in range(MAX_RETRIES):
+            try:
+                return await openai.ChatCompletion.acreate(
+                    model=MODEL,
+                    messages=[
+                        {"role": "system", "content": PROMPT_SYSTEM_ROLE},
+                        {"role": "user", "content": PROMPT_USER_CONTENT_TEMPLATE.format(self.presentation_title, slide_number, text)}
+                    ],
+                    max_tokens=600, 
+                    temperature=TEMPERATURE,
+                    timeout=TIMEOUT
+                )
+            except RateLimitError:
+                print(f"Rate limit exceeded for slide number:{slide_number}. Task sleeping for 30 seconds.")
+                await asyncio.sleep(30)       
+            except Timeout as e:
+                raise Timeout(f"Slide number {slide_number} has not been processed due to a timeout error: {e}")
+            except Exception as e:
+                raise Exception(f"Slide number {slide_number} has not been processed due to an error: {e}")
+        
+        raise Exception(f"Failed to process slide number {slide_number} after 5 attempts.)
