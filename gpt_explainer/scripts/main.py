@@ -23,7 +23,7 @@ async def main(api_key: Optional[str], presentation_file_path: str) -> None:
     """Main function to extract text from a presentation and get explanations from GPT-3.5."""
     presentation_path = Path(presentation_file_path)
     presentation_title = presentation_path.stem
-    output_file_path = Path("gpt_explainer/output") / f"{presentation_title}.json"
+    output_file_path = Path("output") / f"{presentation_title}.json"
     
     if api_key is None:
         api_key = os.getenv('OPENAI_API_KEY')
