@@ -20,7 +20,12 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 async def main(api_key: Optional[str], presentation_file_path: str) -> None:
-    """Main function to extract text from a presentation and get explanations from GPT-3.5."""
+    """
+    Main function to extract text from a presentation and get explanations from GPT-3.5.
+
+    Usege:
+      python main.py --pptx_file_path <pptx_file_path> [--OpenAI_api_key <api_key>]
+    """
     presentation_path = Path(presentation_file_path)
     presentation_title = presentation_path.stem
     output_file_path = Path("output") / f"{presentation_title}.json"
