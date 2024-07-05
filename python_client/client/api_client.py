@@ -24,7 +24,7 @@ class APIClient:
             if response.status_code == 200:
                 return response.json().get('uid')
             else:
-                logging.error(f"Failed to upload file: {e}")
+                logging.error(f"Failed to upload file")
                 response.raise_for_status()
 
     def status(self, uid: str) -> Optional['Status']:
@@ -34,7 +34,7 @@ class APIClient:
         if response.status_code == 200:
             return Status.from_json(response.json())
         else:
-            logging.error(f"Failed to get status for UID {uid}: {e}")
+            logging.error(f"Failed to get status for UID {uid}")
             response.raise_for_status()
 
 @dataclass
