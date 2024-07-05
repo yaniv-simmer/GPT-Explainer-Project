@@ -3,15 +3,14 @@ from pathlib import Path
 import uuid
 from datetime import datetime
 import logging
-import json
+import sys
+import os
 from typing import Tuple, Optional
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from config import OUTPUTS_FOLDER, UPLOADS_FOLDER
 
-# Configuration (could be externalized into a config file or environment variables)
-UPLOAD_FOLDER = Path('gpt_explainer/uploads/')
-PROCESSED_FOLDER = Path('gpt_explainer/outputs/')
 FILE_NOT_FOUND_MSG = 'file not found'
 
-# Initialize logging
 logging.basicConfig(level=logging.INFO)
 
 api_bp = Blueprint('api', __name__)
@@ -57,7 +56,7 @@ def upload_file() -> Tuple[jsonify, int]:
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
     filename = f"{file.filename[:-5]}_{timestamp}_{uid}.pptx"
     
-    FileManager.save_file(file, UPLOAD_FOLDER, filename)
+    FileManager.save_file(file, UPLOADS_FOLDER, filename)
         
     return jsonify({'uid': uid}), 200
 
@@ -65,7 +64,7 @@ def upload_file() -> Tuple[jsonify, int]:
 def check_status(uid: str) -> Tuple[jsonify, int]:
     """Checks the status of a file upload job."""
     pattern = f"*_{uid}.pptx"
-    file_path = FileManager.find_file(UPLOAD_FOLDER, pattern)
+    file_path = FileManager.find_file(UPLOADS_FOLDER, pattern)
     
     if not file_path:
         return jsonify({'status': FILE_NOT_FOUND_MSG}), 404
@@ -73,7 +72,7 @@ def check_status(uid: str) -> Tuple[jsonify, int]:
     parts = file_path.name.rsplit('_', 2)
     original_filename, timestamp = parts[0], parts[1]
     
-    result_file = PROCESSED_FOLDER / f"{original_filename}_{timestamp}_{uid}.json"
+    result_file = OUTPUTS_FOLDER / f"{original_filename}_{timestamp}_{uid}.json"
     if result_file.exists():
         explanation = FileManager.read_file(result_file)
         status = 'done'
@@ -85,4 +84,14 @@ def check_status(uid: str) -> Tuple[jsonify, int]:
         'filename': original_filename,
         'timestamp': timestamp,
         'explanation': explanation if status == 'done' else None
+    }), 200
+
+
+
+@api_bp.route('/shared_dir', methods=['GET'])
+def get_shared_dirs() -> Tuple[jsonify, int]:    
+    """ Returns the shared directories for uploads and outputs """
+    return jsonify({
+        'uploads_dir': str(UPLOADS_FOLDER),
+        'outputs_dir': str(OUTPUTS_FOLDER)
     }), 200
