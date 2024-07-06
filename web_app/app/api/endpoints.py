@@ -11,7 +11,8 @@ from config import OUTPUTS_FOLDER, UPLOADS_FOLDER
 
 FILE_NOT_FOUND_MSG = 'file not found'
 
-logging.basicConfig(level=logging.INFO)
+LOG_FILE = Path(__file__).parent.parent.parent.resolve() / 'logs' /'api_logs'/ 'api_logs.log'
+logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 api_bp = Blueprint('api', __name__)
 
