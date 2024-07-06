@@ -25,3 +25,11 @@
 2024-07-06 16:59:28,705 - INFO - 127.0.0.1 - - [06/Jul/2024 16:59:28] "GET /status/a9b84f312dea4b7baf718b0b087fad79 HTTP/1.1" 200 -
 2024-07-06 17:03:40,810 - INFO - 127.0.0.1 - - [06/Jul/2024 17:03:40] "GET /status/b74e084c72a14b67914cab0940c0ba17 HTTP/1.1" 200 -
 2024-07-06 17:03:42,912 - INFO - 127.0.0.1 - - [06/Jul/2024 17:03:42] "GET /status/a9b84f312dea4b7baf718b0b087fad79 HTTP/1.1" 200 -
+2024-07-06 17:30:58,677 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-07-06 17:30:58,677 - INFO - [33mPress CTRL+C to quit[0m
+2024-07-06 17:31:05,409 - INFO - 127.0.0.1 - - [06/Jul/2024 17:31:05] "POST /upload HTTP/1.1" 200 -
+2024-07-06 17:31:06,419 - INFO - 127.0.0.1 - - [06/Jul/2024 17:31:06] "GET /shared_dir HTTP/1.1" 200 -
+2024-07-06 17:31:07,459 - INFO - 127.0.0.1 - - [06/Jul/2024 17:31:07] "POST /upload HTTP/1.1" 200 -
+2024-07-06 17:31:09,524 - INFO - 127.0.0.1 - - [06/Jul/2024 17:31:09] "POST /upload HTTP/1.1" 200 -
+2024-07-06 17:31:11,588 - INFO - 127.0.0.1 - - [06/Jul/2024 17:31:11] "POST /upload HTTP/1.1" 200 -
