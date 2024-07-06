@@ -1,3 +1,27 @@
 2024-07-06 16:50:26,166 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on http://127.0.0.1:5000
 2024-07-06 16:50:26,172 - INFO - [33mPress CTRL+C to quit[0m
+2024-07-06 16:50:32,759 - INFO - 127.0.0.1 - - [06/Jul/2024 16:50:32] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:50:33,730 - INFO - 127.0.0.1 - - [06/Jul/2024 16:50:33] "GET /shared_dir HTTP/1.1" 200 -
+2024-07-06 16:50:34,787 - INFO - 127.0.0.1 - - [06/Jul/2024 16:50:34] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:50:36,855 - INFO - 127.0.0.1 - - [06/Jul/2024 16:50:36] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:50:38,918 - INFO - 127.0.0.1 - - [06/Jul/2024 16:50:38] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:54:46,490 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-07-06 16:54:46,490 - INFO - [33mPress CTRL+C to quit[0m
+2024-07-06 16:54:53,255 - INFO - 127.0.0.1 - - [06/Jul/2024 16:54:53] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:54:53,977 - INFO - 127.0.0.1 - - [06/Jul/2024 16:54:53] "GET /shared_dir HTTP/1.1" 200 -
+2024-07-06 16:54:55,347 - INFO - 127.0.0.1 - - [06/Jul/2024 16:54:55] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:54:57,426 - INFO - 127.0.0.1 - - [06/Jul/2024 16:54:57] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:54:59,490 - INFO - 127.0.0.1 - - [06/Jul/2024 16:54:59] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:59:12,215 - INFO - 127.0.0.1 - - [06/Jul/2024 16:59:12] "GET /status/e7f8467b7cbd40de829be67e464d7c90 HTTP/1.1" 200 -
+2024-07-06 16:59:14,365 - INFO - 127.0.0.1 - - [06/Jul/2024 16:59:14] "GET /status/55be101003104b18b2a6cf827e3eca3c HTTP/1.1" 200 -
+2024-07-06 16:59:16,461 - INFO - 127.0.0.1 - - [06/Jul/2024 16:59:16] "[33mGET /status/invalid_uid HTTP/1.1[0m" 404 -
+2024-07-06 16:59:18,523 - INFO - 127.0.0.1 - - [06/Jul/2024 16:59:18] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:59:20,561 - INFO - 127.0.0.1 - - [06/Jul/2024 16:59:20] "GET /status/322cb3421ad04799b32dc92a05c8b13f HTTP/1.1" 200 -
+2024-07-06 16:59:22,599 - INFO - 127.0.0.1 - - [06/Jul/2024 16:59:22] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:59:24,652 - INFO - 127.0.0.1 - - [06/Jul/2024 16:59:24] "POST /upload HTTP/1.1" 200 -
+2024-07-06 16:59:26,677 - INFO - 127.0.0.1 - - [06/Jul/2024 16:59:26] "GET /status/b74e084c72a14b67914cab0940c0ba17 HTTP/1.1" 200 -
+2024-07-06 16:59:28,705 - INFO - 127.0.0.1 - - [06/Jul/2024 16:59:28] "GET /status/a9b84f312dea4b7baf718b0b087fad79 HTTP/1.1" 200 -
+2024-07-06 17:03:40,810 - INFO - 127.0.0.1 - - [06/Jul/2024 17:03:40] "GET /status/b74e084c72a14b67914cab0940c0ba17 HTTP/1.1" 200 -
+2024-07-06 17:03:42,912 - INFO - 127.0.0.1 - - [06/Jul/2024 17:03:42] "GET /status/a9b84f312dea4b7baf718b0b087fad79 HTTP/1.1" 200 -
