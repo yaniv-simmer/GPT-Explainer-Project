@@ -12,9 +12,17 @@ from api_client import APIClient
 PRESENTATION_PATH_1 = Path(os.path.abspath(os.path.join('sample_presentation', 'Chapter_4_V7.01.pptx')))
 PRESENTATION_PATH_2 = Path(os.path.abspath(os.path.join('sample_presentation', 'Chapter_6_5-6.pptx')))
 UPLOAD_DIR = Path(os.path.abspath(os.path.join('..', 'web_app', 'shared_uploads')))
+OUTPUT_DIR = Path(os.path.abspath(os.path.join('..', 'web_app', 'shared_outputs')))
 
-# sleep_time is long because the gpt_explainer takes a long time to process the file. can be reduced , depending on your system
-SLEEP_TIME = 300
+# SLEEP_TIME is long because the gpt_explainer takes a long time to process the file. can be reduced , depending on your system
+SLEEP_TIME = 250
+
+def delete_files():
+    '''Deletes all files in the upload and output directories'''
+    for folder in [UPLOAD_DIR, OUTPUT_DIR]:
+        for file in folder.glob('*'):
+            file.unlink()
+
 
 @pytest.fixture(scope="module")
 def setup_web_app():
@@ -45,6 +53,7 @@ def test_upload_method_returns_uid(api_client, setup_web_app, setup_gpt_explaine
     '''
     uid = api_client.upload(PRESENTATION_PATH_2)
     assert uid is not None and isinstance(uid, str) 
+    delete_files()
 
 def test_upload_creates_file(api_client, setup_web_app, setup_gpt_explainer):
     '''
@@ -57,6 +66,7 @@ def test_upload_creates_file(api_client, setup_web_app, setup_gpt_explainer):
     
     assert len(uploaded_files) == 1, f"No file or multiple files found with pattern '*_{uid}.pptx' in {upload_folder}"
     assert uploaded_files[0].exists(), f"The file {uploaded_files[0]} does not exist."
+    delete_files()
 
 def test_explainer_processes_new_files(api_client, setup_web_app, setup_gpt_explainer):
     '''
@@ -70,6 +80,7 @@ def test_explainer_processes_new_files(api_client, setup_web_app, setup_gpt_expl
     status_2 = api_client.status(uid_2)
     assert status_1.is_done() and status_2.is_done()
     assert status_1.explanation is not None and status_2.explanation is not None
+    delete_files()
 
 def test_client_raises_errors_for_invalid_uid(api_client, setup_web_app, setup_gpt_explainer):
     '''
@@ -83,6 +94,7 @@ def test_status_method_returns_pending(api_client, setup_web_app, setup_gpt_expl
     uid = api_client.upload(PRESENTATION_PATH_2)
     status = api_client.status(uid)
     assert status.status == 'pending'
+    delete_files()
 
 def test_full_cycle(api_client, setup_web_app, setup_gpt_explainer):
     '''Test the full cycle of uploading a file, waiting for the status to be updated and checking the status'''
@@ -97,3 +109,10 @@ def test_full_cycle(api_client, setup_web_app, setup_gpt_explainer):
 
     assert status_1.is_done() and status_2.is_done()
     assert status_1.explanation is not None and status_2.explanation is not None
+    
+    assert len(list(UPLOAD_DIR.glob('*'))) == len(list(OUTPUT_DIR.glob('*')))
+    delete_files()
+
+if __name__ == "__main__":
+    
+    pytest.main(['-v', 'sys_test.py'])
