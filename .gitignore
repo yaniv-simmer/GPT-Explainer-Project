@@ -23,7 +23,7 @@ build
 *.code-workspace
 
 # Other
-*.log
+
 *.sql
 *.sqlite
 
