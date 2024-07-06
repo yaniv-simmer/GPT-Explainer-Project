@@ -9,7 +9,9 @@ from async_requests import AsyncRequestsHandler
 from typing import Optional
 
 CONFIG_URL = 'http://localhost:5000/shared_dir'
-LOG_FILE = 'explainer.log'
+
+
+LOG_FILE = Path(__file__).parent.parent.parent.resolve() / 'web_app' / 'logs' /'gpt_explainer_logs'/ 'explainer.log'
 logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class PresentationProcessor:
