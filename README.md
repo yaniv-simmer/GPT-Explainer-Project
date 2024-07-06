@@ -1,5 +1,5 @@
 
-# Final Exercise - GPT Explainer
+# PPTX files GPT Explainer
 
 ## Overview
 
